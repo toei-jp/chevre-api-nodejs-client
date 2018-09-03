@@ -1,0 +1,14 @@
+node_modules/
+npm-debug.log*
+.vscode/
+.env*
+**/*.log
+coverage/
+.nyc_output/
+**/*.js
+**/*.js.map
+**/*.d.ts
+!example/**/*.js
+
+!.gitignore
+!.gitkeep

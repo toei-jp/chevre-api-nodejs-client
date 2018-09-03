@@ -1,0 +1,85 @@
+{
+  "name": "@toei-jp/chevre-api-nodejs-client",
+  "version": "1.0.0",
+  "description": "Chevre API Client Library for Node.js",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "files": [
+    "docs",
+    "example",
+    "lib"
+  ],
+  "directories": {
+    "doc": "./docs",
+    "lib": "./lib",
+    "example": "./example",
+    "test": "./test"
+  },
+  "scripts": {
+    "build": "tsc",
+    "check": "npm run tslint && nsp check",
+    "clean": "rimraf ./lib \"npm-debug.log*\" ./docs ./coverage ./.nyc_output",
+    "example": "http-server ./example",
+    "doc": "echo \"implementing...\" && exit 0",
+    "mocha": "mocha",
+    "nyc": "nyc mocha \"src/**/*.spec.ts\"",
+    "coverage": "npm run nyc | coveralls",
+    "snyk": "snyk wizard",
+    "test": "npm run check && npm run coverage",
+    "tslint": "tslint --project tsconfig.json -c tslint.json --exclude \"**/*.spec.ts\" \"src/**/*.ts\"",
+    "preversion": "npm run clean && npm run build && npm test && npm run doc",
+    "version": "git add -A",
+    "postversion": "git push origin --tags",
+    "prepublishOnly": "npm run clean && npm run build && npm test && npm run doc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/toei-jp/chevre-api-nodejs-client.git"
+  },
+  "keywords": [
+    "chevre"
+  ],
+  "author": {
+    "name": "Motionpicture co.,ltd."
+  },
+  "contributors": [
+    {
+      "email": "yamazaki@motionpicture.jp",
+      "name": "Tetsu Yamazaki"
+    }
+  ],
+  "license": "ISC",
+  "devDependencies": {
+    "@types/debug": "0.0.30",
+    "@types/form-data": "^2.2.1",
+    "@types/http-status": "^0.2.30",
+    "@types/isomorphic-fetch": "0.0.34",
+    "@types/mocha": "^5.2.5",
+    "@types/nock": "^9.3.0",
+    "@types/open": "0.0.29",
+    "@types/power-assert": "^1.5.0",
+    "@types/sinon": "^5.0.2",
+    "coveralls": "^3.0.2",
+    "http-server": "^0.11.1",
+    "mocha": "^5.2.0",
+    "moment": "^2.22.2",
+    "nock": "^9.6.1",
+    "nsp": "^3.2.1",
+    "nyc": "^12.0.2",
+    "open": "0.0.5",
+    "power-assert": "^1.6.0",
+    "rimraf": "^2.6.2",
+    "sinon": "^6.1.5",
+    "snyk": "^1.94.0",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "tslint-microsoft-contrib": "^5.2.1",
+    "typescript": "^3.0.3"
+  },
+  "dependencies": {
+    "@toei-jp/chevre-api-abstract-client": "^1.0.0-alpha.0",
+    "debug": "^3.1.0",
+    "http-status": "^1.2.0",
+    "isomorphic-fetch": "^2.2.1"
+  }
+}
