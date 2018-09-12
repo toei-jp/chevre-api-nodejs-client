@@ -67,18 +67,18 @@
     "nsp": "^3.2.1",
     "nyc": "^12.0.2",
     "open": "0.0.5",
-    "power-assert": "^1.6.0",
+    "power-assert": "^1.6.1",
     "rimraf": "^2.6.2",
-    "sinon": "^6.1.5",
-    "snyk": "^1.94.0",
+    "sinon": "^6.2.0",
+    "snyk": "^1.95.3",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "tslint-microsoft-contrib": "^5.2.1",
     "typescript": "^3.0.3"
   },
   "dependencies": {
-    "@toei-jp/chevre-api-abstract-client": "^1.0.0-alpha.0",
-    "debug": "^3.1.0",
+    "@toei-jp/chevre-api-abstract-client": "^1.0.0-alpha.1",
+    "debug": "^3.2.5",
     "http-status": "^1.2.0",
     "isomorphic-fetch": "^2.2.1"
   }

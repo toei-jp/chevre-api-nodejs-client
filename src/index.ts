@@ -1,8 +1,7 @@
 /**
  * API Node.js Client
  */
-import * as abstractClient from '@toei-jp/chevre-api-abstract-client';
-
+import { factory, service, transporters } from './abstract';
 import ClientCredentialsClient from './auth/clientCredentialsClient';
 import OAuth2client from './auth/oAuth2client';
 
@@ -11,9 +10,9 @@ import OAuth2client from './auth/oAuth2client';
  * All object interfaces are here.
  * 全てのオブジェクトのインターフェースはここに含まれます。
  */
-export import factory = abstractClient.factory;
-export import service = abstractClient.service;
-export import transporters = abstractClient.transporters;
+export import factory = factory;
+export import service = service;
+export import transporters = transporters;
 
 /**
  * each OAuth2 clients

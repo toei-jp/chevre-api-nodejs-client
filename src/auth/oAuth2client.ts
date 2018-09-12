@@ -7,7 +7,7 @@ import { BAD_REQUEST, FORBIDDEN, OK, UNAUTHORIZED } from 'http-status';
 import * as fetch from 'isomorphic-fetch';
 import * as querystring from 'querystring';
 
-import { Auth, transporters } from '@toei-jp/chevre-api-abstract-client';
+import { Auth, transporters } from '../abstract';
 import ICredentials from './credentials';
 import { ITokenPayload, LoginTicket } from './loginTicket';
 
