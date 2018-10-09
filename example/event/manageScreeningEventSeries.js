@@ -45,13 +45,26 @@ async function main() {
         kanaName: 'サンプルイベントシリーズ',
         alternativeHeadline: '',
         endDate: new Date(),
-        startDate: new Date()
+        startDate: new Date(),
+        movieSubtitleName: 'movieSubtitleName',
+        signageDisplayName: '',
+        signageDislaySubtitleName: '',
+        summaryStartDay: '1',
+        mvtkFlg: 1,
+        description: {
+            ja: 'サンプル',
+            en: 'description'
+        }
     });
-    console.log('created', event);
+    console.log('description ja', event.description.ja);
+    console.log('description en', event.description.en);
+    // console.log('created', event);
 
     console.log('finding...');
     event = await eventService.findScreeningEventSeriesById({ id: event.id });
-    console.log('found', event);
+    // console.log('found', event);
+    console.log('description ja', event.description.ja);
+    console.log('description en', event.description.en);
 
     console.log('updating...');
     event.kanaName = 'サンプル';

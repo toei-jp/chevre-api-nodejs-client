@@ -1,5 +1,5 @@
 /**
- * 劇場検索サンプル
+ * 配給サンプル
  */
 const auth = require('../auth');
 const client = require('../../lib/');
@@ -10,17 +10,16 @@ async function main() {
     const loginTicket = authClient.verifyIdToken({});
     console.log('username is', loginTicket.getUsername());
 
-    const placeService = new client.service.Place({
+    const distributionsService = new client.service.Distributions({
         endpoint: process.env.TEST_API_ENDPOINT,
         auth: authClient
     });
 
-    console.log('finding movieTheater...');
-    const { totalCount, data } = await placeService.searchMovieTheaters({
-        // name: 'モーション'
-    });
-    console.log(data);
-    console.log(totalCount, 'movieTheater found');
+    console.log('searching...');
+    const data = await distributionsService.getDistributionsList();
+    console.log(data.map((e) => e.id).join('\n'));
+    console.log(data.map((e) => e.name).join('\n'));
+    console.log(data.length, 'returned');
 }
 
 main().then(() => {

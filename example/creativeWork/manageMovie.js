@@ -19,30 +19,42 @@ async function main() {
     console.log('creating movie...');
     let movie = await creativeWorkService.createMovie({
         typeOf: client.factory.creativeWorkType.Movie,
-        identifier: '999999',
-        name: 'Sample Movie',
+        identifier: '00009',
+        name: 'Sample Movie 9',
         duration: moment.duration(60, 'm').toISOString(),
-        contentRating: ''
+        contentRating: '',
+        subtitle: 'sub8',
+        datePublished: new Date(),
+        scheduleEndDate: new Date(),
+        distribution: 1
     });
     console.log('movie created', movie);
 
     console.log('finding movie...');
     movie = await creativeWorkService.findMovieByIdentifier({ identifier: movie.identifier });
     console.log('movie found', movie.name);
+    console.log('movie found', movie.subtitle);
+    console.log('movie found', movie.datePublished);
+    console.log('movie found', movie.scheduleEndDate);
+    console.log('movie found', movie.distribution);
 
-    console.log('updating movie...');
-    await creativeWorkService.updateMovie({
-        typeOf: client.factory.creativeWorkType.Movie,
-        identifier: '999999',
-        name: 'Sample Movie Updated',
-        duration: moment.duration(60, 'm').toISOString(),
-        contentRating: ''
-    });
-    console.log('movie updated');
+    // console.log('updating movie...');
+    // await creativeWorkService.updateMovie({
+    //     typeOf: client.factory.creativeWorkType.Movie,
+    //     identifier: '00001',
+    //     name: 'Sample Movie Updated',
+    //     duration: moment.duration(60, 'm').toISOString(),
+    //     contentRating: '',
+    //     subtitle: 'sub 00003',
+    //     datePublished: "2018/09/28",
+    //     scheduleEndDate: new Date(),
+    //     distribution: 1
+    // });
+    // console.log('movie updated');
 
-    console.log('deleting movie...');
-    await creativeWorkService.deleteMovie({ identifier: movie.identifier });
-    console.log('movie deleted');
+    // console.log('deleting movie...');
+    // await creativeWorkService.deleteMovie({ identifier: movie.identifier });
+    // console.log('movie deleted');
 }
 
 main().then(() => {
