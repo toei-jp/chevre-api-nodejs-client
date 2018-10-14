@@ -17,7 +17,7 @@ async function main() {
 
     console.log('finding movieTheater...');
     const { totalCount, data } = await placeService.searchMovieTheaters({
-        // name: 'モーション'
+        name: 'モーション'
     });
     console.log(data);
     console.log(totalCount, 'movieTheater found');

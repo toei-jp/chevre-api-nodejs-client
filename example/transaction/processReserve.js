@@ -29,12 +29,25 @@ async function main() {
     const selectedEvent = events.data[0];
 
     console.log('searching ticket types...');
-    const ticketTypes = await eventService.searchScreeningEventTicketTypes({ eventId: selectedEvent.id });
-    console.log('ticketTypes:', ticketTypes);
+    const ticketOffers = await eventService.searchScreeningEventTicketOffers({ eventId: selectedEvent.id });
+    console.log('ticketOffers found', ticketOffers)
+    console.log('チケットオファーは以下の通りです')
+    console.log(ticketOffers.map((o) => {
+        const unitPriceSpecification = o.priceSpecification.priceComponent
+            .filter((s) => s.typeOf === client.factory.priceSpecificationType.UnitPriceSpecification)
+            .shift();
+        const videoFormatCharge = o.priceSpecification.priceComponent
+            .filter((s) => s.typeOf === client.factory.priceSpecificationType.VideoFormatChargeSpecification)
+            .map((s) => `+${s.appliesToVideoFormat}チャージ:${s.price} ${s.priceCurrency}`).join(' ')
+        const soundFormatCharge = o.priceSpecification.priceComponent
+            .filter((s) => s.typeOf === client.factory.priceSpecificationType.SoundFormatChargeSpecification)
+            .map((s) => `+${s.appliesToSoundFormat}チャージ:${s.price} ${s.priceCurrency}`).join(' ')
+        return `${o.id} ${o.name.ja} ${unitPriceSpecification.price} ${o.priceCurrency} ${videoFormatCharge} ${soundFormatCharge}`
+    }).join('\n'));
 
     console.log('searching offers...');
     const offers = await eventService.searchScreeningEventOffers({ eventId: selectedEvent.id });
-    console.log('offers:', offers);
+    console.log(offers.length, 'offers found');
     const seatOffers = offers[0].containsPlace;
     console.log(seatOffers.length, 'seatOffers found');
     const availableSeatOffers = seatOffers.filter((o) => o.offers[0].availability === client.factory.itemAvailability.InStock);
@@ -42,8 +55,8 @@ async function main() {
 
     const selectedSectionOffer = offers[0];
     const selectedSeatOffer = availableSeatOffers[0];
-    const selectedTicketType = ticketTypes[0];
-    console.log('reserving...', selectedEvent.id, selectedSectionOffer.branchCode, selectedSeatOffer.branchCode, selectedTicketType.id);
+    const selectedTicketOffer = ticketOffers[0];
+    console.log('reserving...', selectedEvent.id, selectedSectionOffer.branchCode, selectedSeatOffer.branchCode, selectedTicketOffer.id);
 
     console.log('starting transaction...');
     let transaction = await reserveService.start({
@@ -56,11 +69,9 @@ async function main() {
             event: {
                 id: selectedEvent.id
             },
-            tickets: [
+            acceptedOffer: [
                 {
-                    ticketType: {
-                        id: selectedTicketType.id
-                    },
+                    id: selectedTicketOffer.id,
                     ticketedSeat: {
                         seatNumber: selectedSeatOffer.branchCode,
                         seatSection: selectedSectionOffer.branchCode
@@ -68,11 +79,14 @@ async function main() {
                 }
             ],
             notes: 'test from samples'
-
         },
         expires: moment().add(5, 'minutes').toDate()
     });
     console.log('transaction started', transaction.id);
+    console.log('予約を開始しました', transaction.object.reservations.map((r) => r.price).join(','));
+    console.log(transaction.object.reservations.map((r) => {
+        return `${r.id} ${r.reservationNumber} ${r.reservationStatus} ${r.reservedTicket.underName.name}`
+    }).join('\n'));
 
     await wait(1000);
 
@@ -92,11 +106,9 @@ async function main() {
             event: {
                 id: selectedEvent.id
             },
-            tickets: [
+            acceptedOffer: [
                 {
-                    ticketType: {
-                        id: selectedTicketType.id
-                    },
+                    id: selectedTicketOffer.id,
                     ticketedSeat: {
                         seatNumber: selectedSeatOffer.branchCode,
                         seatSection: selectedSectionOffer.branchCode
@@ -104,11 +116,15 @@ async function main() {
                 }
             ],
             notes: 'test from samples'
-
         },
         expires: moment().add(5, 'minutes').toDate()
     });
     console.log('transaction started', transaction.id);
+    console.log('予約を開始しました', transaction.object.reservations.map((r) => r.price).join(','));
+    console.log(transaction.object.reservations.map((r) => {
+        return `${r.id} ${r.reservationNumber} ${r.reservationStatus} ${r.reservedTicket.underName.name}`
+    }).join('\n'));
+
 
     // 確定
     await reserveService.confirm({
